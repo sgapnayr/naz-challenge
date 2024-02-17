@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "push": "git add . && git commit -m 'update' && git push && next dev"
   },
   "dependencies": {
     "react": "^18",
