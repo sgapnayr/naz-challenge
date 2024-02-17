@@ -9,7 +9,7 @@ export default function BaseButton({
 }) {
   return (
     <div
-      className={`cursor-pointer hover:opacity-90 active:opacity-75 max-w-[429px] h-[47px] rounded-[10px] flex justify-center items-center text-[16px] ${className}`}
+      className={`cursor-pointer hover:opacity-90 active:opacity-75 h-[47px] rounded-[10px] flex justify-center items-center text-[16px] ${className}`}
     >
       {children}
     </div>
