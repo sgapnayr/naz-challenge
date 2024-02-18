@@ -10,7 +10,7 @@ import { toast } from "react-hot-toast";
 import { useAddress } from "@thirdweb-dev/react";
 
 export default function BaseNFT({ nftBet }: { nftBet: any }) {
-  const [contractInstance, setUseContract] = useState<any>();
+  const [useContractInstance, setUseContract] = useState<any>("");
   const [ownerAddress, setOwnerAddress] = useState<string>("");
   const [newOwnerAddress, setNewOwnerAddress] = useState<string>("");
   const [buttonState, setButtonState] = useState("idle");
@@ -20,6 +20,8 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
   const connectedWalletAddress = useAddress();
 
   useEffect(() => {
+    console.log(connectedWalletAddress);
+    console.log(connectedWalletAddress);
     const initWeb3 = async () => {
       if (window.ethereum && contract) {
         const web3Instance = new Web3(window.ethereum);
@@ -27,12 +29,17 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
           contract.abi,
           process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
         );
+        console.log(web3Instance);
+        console.log(contractInstance);
+        console.log(contract.abi);
+        console.log(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
         setUseContract(contractInstance);
+        console.log(useContractInstance);
       }
     };
 
     initWeb3();
-  }, []);
+  }, [connectedWalletAddress]);
 
   async function transferNFT() {
     setButtonState("loading");
@@ -44,7 +51,7 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
     setError(false);
 
     try {
-      const receipt = await contractInstance.methods
+      const receipt = await useContractInstance.methods
         .safeTransferFrom(ownerAddress, newOwnerAddress, nftBet.tokenId)
         .send({ from: ownerAddress });
 
@@ -60,9 +67,16 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
   }
 
   async function fetchOwnerAddress() {
+    if (!useContractInstance || !connectedWalletAddress) {
+      console.log(
+        "Contract instance or connected wallet address is not available yet."
+      );
+      return;
+    }
+
     setOwnerAddress("");
     try {
-      const address = await contractInstance.methods
+      const address = await useContractInstance.methods
         .ownerOf(nftBet.tokenId)
         .call();
       setOwnerAddress(address);
@@ -73,7 +87,8 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
 
   useEffect(() => {
     fetchOwnerAddress();
-  }, [contractInstance, connectedWalletAddress]);
+    console.log(useContractInstance, connectedWalletAddress);
+  }, [useContractInstance, connectedWalletAddress]);
 
   return (
     <div className="flex flex-col lg:flex-row justify-start relative gap-x-[64px] mt-16">
@@ -93,8 +108,10 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
         </h1>
         <p className="mt-[20px] opacity-[50%]">Owner Address:</p>
         <p className="opacity-[100%]">
-          {ownerAddress.slice(0, 5) + "..." + ownerAddress.slice(-5)}
+          {ownerAddress?.slice(0, 5) + "..." + ownerAddress?.slice(-5)}
         </p>
+        <p className="mt-[20px] opacity-[50%]">Token Id:</p>
+        <p className="opacity-[100%]">{nftBet.tokenId}</p>
         <div className="flex gap-x-[28px] lg:absolute mt-8 bottom-6 w-full">
           <BaseButton className="bg-blue blue-gradient blue-shadow grow w-full">
             Make Offer
