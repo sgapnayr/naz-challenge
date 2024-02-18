@@ -84,13 +84,13 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
   }, [useContractInstance, connectedWalletAddress]);
 
   return (
-    <div className="flex flex-col lg:flex-row justify-start relative gap-x-[64px] mt-16">
+    <div className="flex flex-col lg:flex-row justify-between relative gap-x-[64px] mt-16 w-full">
       <Image
         src={nftBet.image}
         alt="NFT"
-        className="xl:max-w-[716px] xl:max-h-[716px] w-1/2 h-1/2 rounded-[14px] shadow-md ring-green ring-2 border-2"
+        className="xl:w-[716px] xl:h-[716px] w-[450px] h-[450px] rounded-[14px] shadow-md ring-green ring-2 border-2"
       />
-      <div className="relative">
+      <div className="relative w-full">
         <p className="mb-[20px] mt-8 opacity-[30%]">
           <span className="underline">{nftBet.category}</span> »{" "}
           <span className="underline">{nftBet.subCategory}</span> »{" "}
