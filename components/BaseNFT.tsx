@@ -20,26 +20,19 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
   const connectedWalletAddress = useAddress();
 
   useEffect(() => {
-    console.log(connectedWalletAddress);
-    console.log(connectedWalletAddress);
     const initWeb3 = async () => {
-      if (window.ethereum && contract) {
+      if (contract && connectedWalletAddress) {
         const web3Instance = new Web3(window.ethereum);
         const contractInstance = new web3Instance.eth.Contract(
           contract.abi,
           process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
         );
-        console.log(web3Instance);
-        console.log(contractInstance);
-        console.log(contract.abi);
-        console.log(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
         setUseContract(contractInstance);
-        console.log(useContractInstance);
       }
     };
 
     initWeb3();
-  }, [connectedWalletAddress]);
+  }, [connectedWalletAddress, contract]);
 
   async function transferNFT() {
     setButtonState("loading");
