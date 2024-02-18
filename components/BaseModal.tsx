@@ -23,7 +23,7 @@ function BaseModal({
   transferNFT: any;
   setNewOwnerAddress: any;
   buttonState: string;
-  error: boolean;
+  error: string;
 }) {
   return (
     <Dialog>
@@ -57,7 +57,7 @@ function BaseModal({
             type="text"
             className="bg-[#24262b] ountline-none focus:outline-none rounded-[10px] w-full h-12 px-4 placeholder:opacity-50 focus:ring-none ring-white/5 ring-1"
           />
-          {error && <p className="text-sm text-red-600 mt-1">Required</p>}
+          {error != "" && <p className="text-sm text-red-600 mt-1">{error}</p>}
         </div>
 
         <BaseButton

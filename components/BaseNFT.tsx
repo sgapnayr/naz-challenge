@@ -14,7 +14,7 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
   const [ownerAddress, setOwnerAddress] = useState<string>("");
   const [newOwnerAddress, setNewOwnerAddress] = useState<string>("");
   const [buttonState, setButtonState] = useState("idle");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
   const { contract } = useContract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
   const connectedWalletAddress = useAddress();
@@ -36,20 +36,28 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
 
   async function transferNFT() {
     setButtonState("loading");
-    if (!newOwnerAddress) {
-      setError(true);
+    if (newOwnerAddress == ownerAddress) {
+      setError("You already own this NFT.");
       setButtonState("idle");
       return;
     }
-    setError(false);
+
+    if (!newOwnerAddress) {
+      setError("Required");
+      setButtonState("idle");
+      return;
+    }
+    setError("");
 
     try {
       const receipt = await useContractInstance.methods
         .safeTransferFrom(ownerAddress, newOwnerAddress, nftBet.tokenId)
         .send({ from: ownerAddress });
 
-      console.log(receipt);
       await fetchOwnerAddress();
+      setOwnerAddress(newOwnerAddress);
+      setNewOwnerAddress("");
+      console.log(receipt);
       toast.success("NFT transferred successfully.");
     } catch (error) {
       console.error("Transaction failed", error);
@@ -60,13 +68,6 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
   }
 
   async function fetchOwnerAddress() {
-    if (!useContractInstance || !connectedWalletAddress) {
-      console.log(
-        "Contract instance or connected wallet address is not available yet."
-      );
-      return;
-    }
-
     setOwnerAddress("");
     try {
       const address = await useContractInstance.methods
@@ -80,7 +81,6 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
 
   useEffect(() => {
     fetchOwnerAddress();
-    console.log(useContractInstance, connectedWalletAddress);
   }, [useContractInstance, connectedWalletAddress]);
 
   return (
