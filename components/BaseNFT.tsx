@@ -80,7 +80,7 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
       />
       <div className="relative">
         <p className="mb-[20px] mt-8 opacity-[30%]">
-          <span className="underline">{nftBet.category}</span> »
+          <span className="underline">{nftBet.category}</span> »{" "}
           <span className="underline">{nftBet.subCategory}</span> »{" "}
           <span className="underline">{nftBet.section}</span>
         </p>
