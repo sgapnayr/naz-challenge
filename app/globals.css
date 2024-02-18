@@ -67,3 +67,9 @@ body {
     ),
     linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
 }
+
+.background-image {
+  background-image: url("/background.png");
+  background-size: cover;
+  background-position: center;
+}

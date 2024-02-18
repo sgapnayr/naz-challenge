@@ -31,16 +31,15 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
     initWeb3();
   }, []);
 
-  function fetchOwnerAddress() {
-    contractInstance.methods
-      .ownerOf(nftBet.tokenId)
-      .call()
-      .then(function (address: any) {
-        setOwnerAddress(address);
-      })
-      .catch(function (error: any) {
-        console.error("Error fetching owner address:", error);
-      });
+  async function fetchOwnerAddress() {
+    try {
+      const address = await contractInstance.methods
+        .ownerOf(nftBet.tokenId)
+        .call();
+      setOwnerAddress(address);
+    } catch (error) {
+      console.error("Error fetching owner address:", error);
+    }
   }
 
   async function transferNFT() {
@@ -57,8 +56,8 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
         .safeTransferFrom(ownerAddress, newOwnerAddress, nftBet.tokenId)
         .send({ from: ownerAddress });
 
-      console.log(receipt);
       fetchOwnerAddress();
+      console.log(receipt);
     } catch (error) {
       console.error("Transaction failed", error);
     } finally {
