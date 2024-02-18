@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Thirdweb from "@/providers/Thirdweb";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Naz Challenge",
@@ -14,7 +15,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="background-image ">
+      <body className="background-image">
+        <Toaster />
         <Thirdweb>{children}</Thirdweb>
       </body>
     </html>

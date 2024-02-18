@@ -6,6 +6,8 @@ import BaseButton from "./BaseButton";
 import BaseModal from "./BaseModal";
 import { useContract } from "@thirdweb-dev/react";
 import Web3 from "web3";
+import { toast } from "react-hot-toast";
+import { useAddress } from "@thirdweb-dev/react";
 
 export default function BaseNFT({ nftBet }: { nftBet: any }) {
   const [contractInstance, setUseContract] = useState<any>();
@@ -15,6 +17,7 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
   const [error, setError] = useState(false);
 
   const { contract } = useContract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
+  const connectedWalletAddress = useAddress();
 
   useEffect(() => {
     const initWeb3 = async () => {
@@ -31,17 +34,6 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
     initWeb3();
   }, []);
 
-  async function fetchOwnerAddress() {
-    try {
-      const address = await contractInstance.methods
-        .ownerOf(nftBet.tokenId)
-        .call();
-      setOwnerAddress(address);
-    } catch (error) {
-      console.error("Error fetching owner address:", error);
-    }
-  }
-
   async function transferNFT() {
     setButtonState("loading");
     if (!newOwnerAddress) {
@@ -56,27 +48,39 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
         .safeTransferFrom(ownerAddress, newOwnerAddress, nftBet.tokenId)
         .send({ from: ownerAddress });
 
-      fetchOwnerAddress();
       console.log(receipt);
+      await fetchOwnerAddress();
+      toast.success("NFT transferred successfully.");
     } catch (error) {
       console.error("Transaction failed", error);
+      toast.error("Transaction failed.");
     } finally {
       setButtonState("idle");
     }
   }
 
-  useEffect(() => {
-    if (contractInstance) {
-      fetchOwnerAddress();
+  async function fetchOwnerAddress() {
+    setOwnerAddress("");
+    try {
+      const address = await contractInstance.methods
+        .ownerOf(nftBet.tokenId)
+        .call();
+      setOwnerAddress(address);
+    } catch (error) {
+      console.error("Error fetching owner address:", error);
     }
-  }, [contractInstance]);
+  }
+
+  useEffect(() => {
+    fetchOwnerAddress();
+  }, [contractInstance, connectedWalletAddress]);
 
   return (
     <div className="flex flex-col lg:flex-row justify-start relative gap-x-[64px] mt-16">
       <Image
         src={nftBet.image}
         alt="NFT"
-        className="xl:max-w-[716px] xl:max-h-[716px] w-1/2 h-1/2 rounded-[14px] shadow-md ring-green ring-2 border-4"
+        className="xl:max-w-[716px] xl:max-h-[716px] w-1/2 h-1/2 rounded-[14px] shadow-md ring-green ring-2 border-2"
       />
       <div className="relative">
         <p className="mb-[20px] mt-8 opacity-[30%]">
@@ -88,7 +92,9 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
           {nftBet.title}
         </h1>
         <p className="mt-[20px] opacity-[50%]">Owner Address:</p>
-        <p className="opacity-[100%]">{ownerAddress}</p>
+        <p className="opacity-[100%]">
+          {ownerAddress.slice(0, 5) + "..." + ownerAddress.slice(-5)}
+        </p>
         <div className="flex gap-x-[28px] lg:absolute mt-8 bottom-6 w-full">
           <BaseButton className="bg-blue blue-gradient blue-shadow grow w-full">
             Make Offer
