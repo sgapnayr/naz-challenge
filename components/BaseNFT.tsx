@@ -37,13 +37,13 @@ export default function BaseNFT({ nftBet }: { nftBet: any }) {
   async function transferNFT() {
     setButtonState("loading");
     if (newOwnerAddress == ownerAddress) {
-      setError("This address has the ERC721 for this NFT.");
+      setError("This address already owns this NFT.");
       setButtonState("idle");
       return;
     }
 
     if (!newOwnerAddress) {
-      setError("Required");
+      setError("Required.");
       setButtonState("idle");
       return;
     }
