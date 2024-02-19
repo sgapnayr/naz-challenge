@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   ThirdwebProvider,
@@ -8,14 +8,10 @@ import {
   localWallet,
   embeddedWallet,
   trustWallet,
-} from "@thirdweb-dev/react";
-import React from "react";
+} from '@thirdweb-dev/react';
+import React from 'react';
 
-export default function ThirdWebWallet({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ThirdWebWallet({ children }: { children: React.ReactNode }) {
   return (
     <ThirdwebProvider
       activeChain="mumbai"
@@ -27,7 +23,7 @@ export default function ThirdWebWallet({
         localWallet(),
         embeddedWallet({
           auth: {
-            options: ["email", "google", "apple", "facebook"],
+            options: ['email', 'google', 'apple', 'facebook'],
           },
         }),
         trustWallet(),

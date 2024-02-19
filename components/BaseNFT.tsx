@@ -40,6 +40,7 @@ export default function BaseNFT({ nftBet }: { nftBet: NFTBet }) {
       }
 
       await contractInstance.methods.safeTransferFrom(ownerAddress, newOwnerAddress, nftBet.tokenId).send({ from: ownerAddress });
+
       await fetchOwnerAddress();
       setNewOwnerAddress('');
       toast.success('NFT transferred successfully.');
@@ -57,7 +58,11 @@ export default function BaseNFT({ nftBet }: { nftBet: NFTBet }) {
 
   return (
     <div className="flex flex-col lg:flex-row justify-between relative gap-x-[64px] mt-16 w-full">
-      <Image src={nftBet.image} alt="NFT" className="xl:w-[716px] xl:h-[716px] w-[450px] h-[450px] rounded-[14px] shadow-md ring-green ring-2 border-2" />
+      <Image
+        src={nftBet.image}
+        alt="NFT"
+        className="xl:w-[716px] xl:h-[716px] w-[450px] h-[450px] rounded-[14px] shadow-md ring-green ring-2 border-2"
+      />
       <div className="relative w-full">
         <p className="mb-[20px] mt-8 opacity-[30%]">
           <span className="underline">{nftBet.category}</span> » <span className="underline">{nftBet.subCategory}</span> »{' '}
@@ -97,7 +102,10 @@ export default function BaseNFT({ nftBet }: { nftBet: NFTBet }) {
           />
         </div>
         {error && <p className="text-sm text-red-600 w-full text-start">{error}</p>}
-        <BaseButton onClick={transferNFT} className={`bg-blue blue-gradient blue-shadow grow w-full ${buttonState === 'loading' ? 'loading' : ''}`}>
+        <BaseButton
+          onClick={transferNFT}
+          className={`bg-blue blue-gradient blue-shadow grow w-full ${buttonState === 'loading' ? 'loading' : ''}`}
+        >
           {buttonState === 'loading' ? 'Transferring...' : 'Transfer'}
         </BaseButton>
       </>
