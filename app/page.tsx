@@ -17,6 +17,7 @@ export default function Home() {
 
   return (
     <DefaultLayout>
+      MAJOR CHANGES
       {nftBets.map((nftBet, idx) => (
         <BaseNFT key={idx} nftBet={nftBet} />
       ))}
