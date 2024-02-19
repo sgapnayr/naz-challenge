@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 import { useAddress } from '@thirdweb-dev/react';
 import { useWeb3 } from '@/hooks/useWeb3';
 import { useNFTOwner } from '@/hooks/useNFTOwner';
-import { NFTBet } from '@/types/nftBet';
+import { NFTBet } from '@/types/types';
 
 export default function BaseNFT({ nftBet }: { nftBet: NFTBet }) {
   const [newOwnerAddress, setNewOwnerAddress] = useState('');

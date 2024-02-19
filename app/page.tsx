@@ -1,7 +1,7 @@
 import BaseNFT from '@/components/BaseNFT';
 import DefaultLayout from '@/layouts/default.layout';
 import NFTImage1 from '@/assets/nft1.png';
-import { NFTBet } from '@/types/nftBet';
+import { NFTBet } from '@/types/types';
 
 export default function Home() {
   const nftBets = [

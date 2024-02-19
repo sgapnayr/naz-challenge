@@ -4,7 +4,7 @@ import { useContract } from '@thirdweb-dev/react';
 
 export function useWeb3() {
   const [web3, setWeb3] = useState(null);
-  const [contractInstance, setContractInstance] = useState(null);
+  const [contractInstance, setContractInstance] = useState({});
   const { contract } = useContract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
 
   useEffect(() => {
