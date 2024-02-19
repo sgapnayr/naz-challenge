@@ -1,32 +1,29 @@
-import React from "react";
+import React from 'react';
 
-export default function BaseButton({
-  children,
-  className,
-  onClick,
-  buttonState,
-}: {
+interface BaseButtonProps {
   children: React.ReactNode;
   className?: string;
-  onClick?: any;
-  buttonState?: string;
-}) {
-  const loader = () => (
-    <div className="border-4 border-t-transparent rounded-full animate-spin w-4 h-4" />
-  );
+  onClick?: () => void; // Specify a more precise type for onClick
+  buttonState?: 'idle' | 'loading'; // Use a more specific type instead of a generic string
+}
 
-  const isLoading = buttonState === "loading";
+const Loader: React.FC = () => <div className="border-4 border-t-transparent rounded-full animate-spin w-4 h-4" />;
+
+const BaseButton: React.FC<BaseButtonProps> = ({ children, className = '', onClick, buttonState = 'idle' }) => {
+  const isLoading = buttonState === 'loading';
 
   return (
-    <div
-      onClick={!isLoading ? onClick : undefined}
+    <button
+      onClick={isLoading ? undefined : onClick}
+      disabled={isLoading}
       className={`cursor-pointer ${
-        !isLoading
-          ? "hover:opacity-90 active:opacity-75"
-          : "cursor-not-allowed opacity-50"
+        isLoading ? 'cursor-not-allowed opacity-50' : 'hover:opacity-90 active:opacity-75'
       } h-[47px] rounded-[10px] flex justify-center items-center text-[16px] ${className}`}
+      type="button"
     >
-      {isLoading ? loader() : children}
-    </div>
+      {isLoading ? <Loader /> : children}
+    </button>
   );
-}
+};
+
+export default BaseButton;

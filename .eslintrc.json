@@ -1,3 +1,15 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "eqeqeq": "error",
+    "curly": "error",
+    "no-unused-vars": "warn",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "jsx-a11y/accessible-emoji": "warn",
+    "react/jsx-no-bind": "warn",
+    "indent": ["error", 2],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "import/no-unresolved": "error"
+  }
 }

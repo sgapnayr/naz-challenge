@@ -19,8 +19,7 @@ export default function ThirdWebWallet({
   return (
     <ThirdwebProvider
       activeChain="mumbai"
-      clientId="f0505e0d9739e88b61227c9bfc73fd5d"
-      // Qt8x8CqgNH1Ph-c_qF9Ombete3_J8fAhrMveoKRV6iSyZ3p2n7LfXsi25GkC_aDs-dIKkwjAXKV0wZkzt2wzAA
+      clientId={process.env.NEXT_PUBLIC_CLIENT_ID}
       supportedWallets={[
         metamaskWallet(),
         coinbaseWallet({ recommended: true }),

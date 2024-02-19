@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "push": "git add . && git commit -m 'update' && git push && next dev"
+    "type-check": "tsc --noEmit",
+    "push": "next lint && npm run type-check && git add . && git commit -m 'update' && git push && next dev"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
