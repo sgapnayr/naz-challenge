@@ -39,6 +39,7 @@ export default function BaseNFT({ nftBet }: { nftBet: NFTBet }) {
         return;
       }
 
+      const change = 'unused va';
       await contractInstance.methods.safeTransferFrom(ownerAddress, newOwnerAddress, nftBet.tokenId).send({ from: ownerAddress });
 
       await fetchOwnerAddress();
