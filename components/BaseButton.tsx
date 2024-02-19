@@ -3,8 +3,8 @@ import React from 'react';
 interface BaseButtonProps {
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void; // Specify a more precise type for onClick
-  buttonState?: 'idle' | 'loading'; // Use a more specific type instead of a generic string
+  onClick?: () => void;
+  buttonState?: 'idle' | 'loading';
 }
 
 const Loader: React.FC = () => <div className="border-4 border-t-transparent rounded-full animate-spin w-4 h-4" />;
